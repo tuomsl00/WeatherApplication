@@ -1,0 +1,41 @@
+<p>edit works!</p>
+<button class="btn btn-primary" (click)="AddLocation()">Add location</button>
+<button class="btn btn-danger" (click)="DeleteLocation()">Delete location</button>
+<input type="text" class="form-control" id="location" (change)="SetLocationName()" />
+<select multiple class="form-control" [(ngModel)]="selectedLocations">
+  <option *ngFor="let location of locations" [ngValue]="location.id">
+    {{location.name}}
+  </option>
+</select>
+<div class="row">
+  <div class="col">
+    <label for="temp">Temperature in C:</label><br />
+    <input type="range" #temperature name="temp" id="temp" placeholder="Temperature" value="0" (change)="EditTemperature()" disabled />
+  </div>
+  <div class="col">
+    <label for="temp">Rain:</label><br />
+    <input type="range" #rain name="rain" id="rain" placeholder="Rain" value="0" (change)="EditRain()" disabled />
+  </div>
+  <div class="col">
+    <label for="temp">Wind:</label><br />
+    <input type="range" #wind name="wind" id="wind" placeholder="Wind" value="0" (change)="EditWind()" disabled />
+  </div>
+ </div>
+  <button class="btn btn-primary" (click)="AddWeatherInfo(temperature, rain, wind)">Add day</button>
+  <button class="btn btn-primary" (click)="SaveWeatherInfo(temperature, rain, wind)">Save</button>
+
+  <div *ngFor="let selected of selectedLocations">
+    <h4>{{locations[selected].name}}</h4>
+    <div *ngFor="let weather of locations[selected].weatherOfDay.slice(0, 8)" class="daybox" (click)="SelectWeatherDay(selected, weather.dayCount, weather.id)" id="{{weather.id}}">
+      <div>{{weather.day}}</div>
+      <div class="temp" [style.borderTop]="weather.temperature+'px solid red'"><p class="winfo">{{weather.temperature}}°C</p></div>
+      <div class="rain" [style.borderTop]="weather.rain+'px solid blue'"><p class="winfo">{{weather.rain}}mm</p></div>
+      <div class="wind" [style.borderTop]="weather.wind+'px solid #6491cf'"><p class="winfo">{{weather.wind}}m/s</p></div>
+    </div>
+  </div>
+
+  <!---
+  <tr *ngFor="let forecast of forecasts">
+
+  </tr>
+    -->
