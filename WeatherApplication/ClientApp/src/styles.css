@@ -1,6 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Provide sufficient contrast against white background */
+:root {
+  --temp: red;
+  --rain: blue;
+  --wind: #6491cf;
+}
+
 a {
   color: #0366d6;
 }

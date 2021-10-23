@@ -1,17 +1,21 @@
+
 .temp {
   width: 30px;
   height: 0px;
-  border-top: 0px solid red;
+  border-top: 0px solid var(--temp);
   transition: border-top 1s;
-  background-color: #ff0000;
   position: absolute;
   bottom: 0px;
+}
+
+.tempc {
+  background-color: var(--temp);
 }
 
 .rain {
   width: 30px;
   height: 0px;
-  border-top: 0px solid blue;
+  border-top: 0px solid var(--rain);
   transition: border-top 1s;
   background-color: blue;
   position: absolute;
@@ -19,16 +23,31 @@
  left: 40px;
 }
 
+.rainc {
+  background-color: var(--rain);
+}
+
 .wind {
   width: 30px;
   height: 0px;
-  border-top: 0px solid #6491cf;
+  border-top: 0px solid var(--wind);
   transition: border-top 1s;
-  background-color: #6491cf;
   position: absolute;
   bottom: 0px;
   left: 80px;
 }
+
+.windc {
+  background-color: var(--wind);
+}
+
+.sign {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
 
 .winfo {
     transform: rotate(-45deg);
@@ -42,7 +61,11 @@
     display: inline-block;
     cursor: pointer;
     background-color: #e2e7ed;
+    transition: background-color 0.4s;
     margin: 2px;
     margin-bottom: 50px;
+}
 
+.daybox:hover {
+    background-color: #c5dbdd;
 }
