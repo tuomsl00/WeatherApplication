@@ -57,7 +57,7 @@ namespace WeatherApplication.Controllers
 
             await _appDbContext.SaveChangesAsync();
 
-            return NoContent();
+            return Accepted(weatherItem);
         }
 
     }

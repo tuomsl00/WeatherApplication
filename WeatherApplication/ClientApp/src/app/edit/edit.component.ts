@@ -14,31 +14,29 @@ export class EditComponent implements OnInit {
     this.FetchLocations();
   }
 
-  day(d: number) {
-    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    return days[d%7];
-  }
+  private weatherUri = 'api/weatherdatabase';
+  private locationUri = 'api/locationdatabase';
 
-  weatherUri = 'api/weatherdatabase';
-  locationUri = 'api/locationdatabase';
-
-  weatherId = 0; // Ordernumber of weatherboxes.
+  private weatherId = 0; // Ordernumber of weatherboxes.
   public selectedLocations = []; // Id's from selectbox
   public locations: Locations[] = []; // Location data from API.
 
    // For weather day select.
-  locationId: number; 
-  dayCount: number;
+  private locationId: number; 
+  private dayCount: number;
 
   // Collection of locations to be deleted.
-  deletable = [];
+  private deletable = [];
 
-  lastWdayId = 0; // Id for the weatherbox that was lastly selected before current.
-  locationName = "";  // Name that is written on the addable location textbox.
+  private lastWdayId = 0; // Id for the weatherbox that was lastly selected before current.
+  private locationName = "";  // Name that is written on the addable location textbox.
 
   public daysToShow = 7;
 
   public date = new Date().toDateString();
+
+  public savedMsg = false;
+  public deletedMsg = false;
 
   public AddWeatherInfo(temp: HTMLInputElement, rain: HTMLInputElement, wind: HTMLInputElement) {
     
@@ -104,13 +102,12 @@ export class EditComponent implements OnInit {
     await this.SaveWeathers();
     if (this.deletable.length) {
       this.DeleteAction();
-    } 
+    }
   }
 
   public DeleteLocation() {
     let i = 0;
     this.deletable = [];
-    console.log(this.locations[this.selectedLocations[0]].id);
     // Set initial values to all selected.
     for (i = 0; i < this.selectedLocations.length; i++) {
 
@@ -147,7 +144,6 @@ export class EditComponent implements OnInit {
     rainField.value = this.locations[locationId].weatherOfDay[dayCount].rain.toString();
     windField.value = this.locations[locationId].weatherOfDay[dayCount].wind.toString();
 
-    console.log(wdayId);
     // Indicate selection
     let lastSelected = (<HTMLHtmlElement>document.getElementById(this.lastWdayId + ''));
     if (lastSelected) lastSelected.style.cssText = "outline: 0px solid red";
@@ -166,7 +162,7 @@ export class EditComponent implements OnInit {
   private HandleLocations(data: LocationDTO[]) {
 
     this.locations = [];
-    console.log(data);
+
     for (let location of data) {
       this.locations.push({
         id: location.id,
@@ -188,7 +184,6 @@ export class EditComponent implements OnInit {
 
     for (let weather of data) {
       let day = new Date(weather.day).getDay();
-      console.log(day);
       this.locations[selectedLocation].weatherOfDay.push({
         id: weather.id,
         order: this.weatherId++,
@@ -238,7 +233,6 @@ export class EditComponent implements OnInit {
   private async SaveWeathers() {
 
     let weatherData = [];
-    console.log(this.locations);
     let date: Date;
     for (let location of this.locations) {
       date = new Date();
@@ -256,7 +250,6 @@ export class EditComponent implements OnInit {
 
       }
     }
-    console.log(weatherData);
     
     fetch(this.weatherUri, {
       method: 'POST',
@@ -272,7 +265,7 @@ export class EditComponent implements OnInit {
       
   }
 
-  handleSaveWeathers(data: WeatherDTO[]) {
+  private handleSaveWeathers(data: WeatherDTO[]) {
     // Set the ids
     let x = 0, y = 0, z = 0;
     for (x = 0; x < this.locations.length; x++) {
@@ -283,6 +276,7 @@ export class EditComponent implements OnInit {
         }
       }
     }
+    this.savedMsg = true;
   }
 
   public DeleteAction() {
@@ -301,10 +295,15 @@ export class EditComponent implements OnInit {
       
   }
 
-  HandleDeletion(data: { Id: number }[]) {
+  private HandleDeletion(data: { Id: number }[]) {
     this.deletable = [];
+    this.deletedMsg = true;
   }
 
+  private day(d: number) {
+    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    return days[d % 7];
+  }
 }
 
 interface Locations {

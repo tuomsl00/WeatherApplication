@@ -11,11 +11,6 @@ namespace WeatherApplication
 
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
-        public int Rain { get; set; }
-        public int Wind { get; set; }
-
-        public int LocationId { get; set; }
-
         public string Summary { get; set; }
     }
 }
